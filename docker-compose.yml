@@ -1,0 +1,27 @@
+version: "3.8"
+
+# This section defines all the services (containers) our application needs.
+services:
+  # We're defining a service named 'postgres'.
+  postgres:
+    image: postgres:15 # Use the official PostgreSQL image, version 15.
+    container_name: helix-postgres # A friendly name for our container.
+    restart: always # Always restart the container if it stops.
+    environment:
+      # These are environment variables for the PostgreSQL container.
+      # They set up the database name, user, and password.
+      POSTGRES_DB: helix
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+    ports:
+      # This maps port 5432 on our local machine to port 5432 inside the container.
+      # This allows our backend API to connect to the database.
+      - "5432:5432"
+    volumes:
+      # This creates a persistent 'volume' to store the database data.
+      # The data will be saved even if we stop or remove the container.
+      - postgres-data:/var/lib/postgresql/data
+
+# This section defines the volumes used by our services.
+volumes:
+  postgres-data: # This formally declares the 'postgres-data' volume.
